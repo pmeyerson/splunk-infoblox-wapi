@@ -1,0 +1,10 @@
+index=ddi sourcetype="infoblox:api:networks" 
+| dedup network 
+| rex field=comment "(?<Site>[\s\S^-]*)\s-\s(?<Vlan>[0-9xX]*)\s-\s(?<NetworkDescription>[\s\S]*)" 
+| rename network as Network
+| table Network Site NetworkDescription Vlan 
+| sort Network num 
+| outputlookup networks createinapp=true append=false
+
+
+## Schedule this search on your splunk search head as frequently as you wish.
